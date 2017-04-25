@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/sb-cl-cxf-usernametoken.iml" filepath="$PROJECT_DIR$/.idea/sb-cl-cxf-usernametoken.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sb-cl-cxf-wss-usernametoken-client/sb-cl-cxf-wss-usernametoken-client.iml" filepath="$PROJECT_DIR$/sb-cl-cxf-wss-usernametoken-client/sb-cl-cxf-wss-usernametoken-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sb-cl-cxf-wss-usernametoken-server/sb-cl-cxf-wss-usernametoken-server.iml" filepath="$PROJECT_DIR$/sb-cl-cxf-wss-usernametoken-server/sb-cl-cxf-wss-usernametoken-server.iml" />
+    </modules>
+  </component>
+</project>
