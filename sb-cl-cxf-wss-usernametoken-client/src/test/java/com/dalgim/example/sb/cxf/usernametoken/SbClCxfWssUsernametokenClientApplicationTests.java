@@ -11,7 +11,6 @@ public class SbClCxfWssUsernametokenClientApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		assert true;
 	}
 
 }

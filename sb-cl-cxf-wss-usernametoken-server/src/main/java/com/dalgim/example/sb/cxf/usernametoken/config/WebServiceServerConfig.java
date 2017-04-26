@@ -9,10 +9,19 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import javax.xml.ws.Endpoint;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.apache.wss4j.common.ConfigurationConstants.ACTION;
+import static org.apache.wss4j.common.ConfigurationConstants.PASSWORD_TYPE;
+import static org.apache.wss4j.common.ConfigurationConstants.PW_CALLBACK_CLASS;
+import static org.apache.wss4j.common.ConfigurationConstants.USER;
 
 /**
  * Created by dalgim on 08.04.2017.
@@ -45,8 +54,27 @@ public class WebServiceServerConfig {
         endpoint.getProperties().put(Message.EXCEPTION_MESSAGE_CAUSE_ENABLED, "true");
         endpoint.getProperties().put(Message.FAULT_STACKTRACE_ENABLED, "true");
         endpoint.getInInterceptors().add(loggingInInterceptor());
+        endpoint.getInInterceptors().add(wss4JInInterceptor());
         endpoint.getOutInterceptors().add(loggingOutInterceptor());
+        endpoint.getOutInterceptors().add(wss4JOutInterceptor());
         return endpoint;
+    }
+
+    private WSS4JOutInterceptor wss4JOutInterceptor() {
+        Map<String, Object> securityConfig = new HashMap<>();
+        securityConfig.put(ACTION, "UsernameToken");
+        securityConfig.put(PASSWORD_TYPE, "PasswordText");
+        securityConfig.put(USER, "server");
+        securityConfig.put(PW_CALLBACK_CLASS, CertificatePasswordHandler.class.getName());
+        return new WSS4JOutInterceptor(securityConfig);
+    }
+
+    private WSS4JInInterceptor wss4JInInterceptor() {
+        Map<String, Object> securityConfig = new HashMap<>();
+        securityConfig.put(ACTION, "UsernameToken");
+        securityConfig.put(PASSWORD_TYPE, "PasswordDigest");
+        securityConfig.put(PW_CALLBACK_CLASS, CertificatePasswordHandler.class.getName());
+        return new WSS4JInInterceptor(securityConfig);
     }
 
     private LoggingInInterceptor loggingInInterceptor() {
